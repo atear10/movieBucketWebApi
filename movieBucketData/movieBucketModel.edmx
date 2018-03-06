@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="movieBucketModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Actors">
+          <Key>
+            <PropertyRef Name="actor_Id" />
+          </Key>
+          <Property Name="actor_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="sex" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="date_of_birth" Type="date" Nullable="false" />
+          <Property Name="bio" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="movie_id" />
+          </Key>
+          <Property Name="movie_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="movie_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="year_of_release" Type="numeric" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="plot" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="poster" Type="varbinary(max)" Nullable="false" />
+          <Property Name="producer_id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="movieactor">
+          <Key>
+            <PropertyRef Name="movie_id" />
+            <PropertyRef Name="actor_id" />
+          </Key>
+          <Property Name="movie_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="actor_id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="producer">
+          <Key>
+            <PropertyRef Name="producer_id" />
+          </Key>
+          <Property Name="producer_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="sex" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="date_of_birth" Type="date" Nullable="false" />
+          <Property Name="bio" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Movie_producer">
+          <End Role="producer" Type="Self.producer" Multiplicity="1" />
+          <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producer">
+              <PropertyRef Name="producer_id" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="producer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_movieactor_Actors">
+          <End Role="Actors" Type="Self.Actors" Multiplicity="1" />
+          <End Role="movieactor" Type="Self.movieactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Actors">
+              <PropertyRef Name="actor_Id" />
+            </Principal>
+            <Dependent Role="movieactor">
+              <PropertyRef Name="actor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_movieactor_Movie">
+          <End Role="Movie" Type="Self.Movie" Multiplicity="1" />
+          <End Role="movieactor" Type="Self.movieactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="movie_id" />
+            </Principal>
+            <Dependent Role="movieactor">
+              <PropertyRef Name="movie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="movieBucketModelStoreContainer">
+          <EntitySet Name="Actors" EntityType="Self.Actors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movie" EntityType="Self.Movie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="movieactor" EntityType="Self.movieactor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="producer" EntityType="Self.producer" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Movie_producer" Association="Self.FK_Movie_producer">
+            <End Role="producer" EntitySet="producer" />
+            <End Role="Movie" EntitySet="Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_movieactor_Actors" Association="Self.FK_movieactor_Actors">
+            <End Role="Actors" EntitySet="Actors" />
+            <End Role="movieactor" EntitySet="movieactor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_movieactor_Movie" Association="Self.FK_movieactor_Movie">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="movieactor" EntitySet="movieactor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="movieBucketModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Actor">
+          <Key>
+            <PropertyRef Name="actor_Id" />
+          </Key>
+          <Property Name="actor_Id" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Movies" Relationship="Self.movieactor" FromRole="Actors" ToRole="Movie" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="movie_id" />
+          </Key>
+          <Property Name="movie_id" Type="Guid" Nullable="false" />
+          <Property Name="movie_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="year_of_release" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="plot" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="poster" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="producer_id" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="producer" Relationship="Self.FK_Movie_producer" FromRole="Movie" ToRole="producer" />
+          <NavigationProperty Name="Actors" Relationship="Self.movieactor" FromRole="Movie" ToRole="Actors" />
+        </EntityType>
+        <EntityType Name="producer">
+          <Key>
+            <PropertyRef Name="producer_id" />
+          </Key>
+          <Property Name="producer_id" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sex" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Movies" Relationship="Self.FK_Movie_producer" FromRole="producer" ToRole="Movie" />
+        </EntityType>
+        <Association Name="FK_Movie_producer">
+          <End Role="producer" Type="Self.producer" Multiplicity="1" />
+          <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producer">
+              <PropertyRef Name="producer_id" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="producer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="movieactor">
+          <End Role="Actors" Type="Self.Actor" Multiplicity="*" />
+          <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="movieBucketEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Actors" EntityType="Self.Actor" />
+          <EntitySet Name="Movies" EntityType="Self.Movie" />
+          <EntitySet Name="producers" EntityType="Self.producer" />
+          <AssociationSet Name="FK_Movie_producer" Association="Self.FK_Movie_producer">
+            <End Role="producer" EntitySet="producers" />
+            <End Role="Movie" EntitySet="Movies" />
+          </AssociationSet>
+          <AssociationSet Name="movieactor" Association="Self.movieactor">
+            <End Role="Actors" EntitySet="Actors" />
+            <End Role="Movie" EntitySet="Movies" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="movieBucketModelStoreContainer" CdmEntityContainer="movieBucketEntities">
+          <EntitySetMapping Name="Actors">
+            <EntityTypeMapping TypeName="movieBucketModel.Actor">
+              <MappingFragment StoreEntitySet="Actors">
+                <ScalarProperty Name="actor_Id" ColumnName="actor_Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+                <ScalarProperty Name="bio" ColumnName="bio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="movieBucketModel.Movie">
+              <MappingFragment StoreEntitySet="Movie">
+                <ScalarProperty Name="movie_id" ColumnName="movie_id" />
+                <ScalarProperty Name="movie_name" ColumnName="movie_name" />
+                <ScalarProperty Name="year_of_release" ColumnName="year_of_release" />
+                <ScalarProperty Name="plot" ColumnName="plot" />
+                <ScalarProperty Name="poster" ColumnName="poster" />
+                <ScalarProperty Name="producer_id" ColumnName="producer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="producers">
+            <EntityTypeMapping TypeName="movieBucketModel.producer">
+              <MappingFragment StoreEntitySet="producer">
+                <ScalarProperty Name="producer_id" ColumnName="producer_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+                <ScalarProperty Name="bio" ColumnName="bio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="movieactor" TypeName="movieBucketModel.movieactor" StoreEntitySet="movieactor">
+            <EndProperty Name="Actors">
+              <ScalarProperty Name="actor_Id" ColumnName="actor_id" />
+            </EndProperty>
+            <EndProperty Name="Movie">
+              <ScalarProperty Name="movie_id" ColumnName="movie_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,11 @@
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\bin\Debug\movieBucketData.dll.config
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\bin\Debug\movieBucketData.dll
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\bin\Debug\movieBucketData.pdb
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\bin\Debug\EntityFramework.dll
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\bin\Debug\EntityFramework.xml
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\obj\Debug\movieBucketData.csprojResolveAssemblyReference.cache
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\obj\Debug\movieBucketData.csproj.CoreCompileInputs.cache
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\obj\Debug\movieBucketData.dll
+C:\Users\Kishore\source\repos\movieBucketWebApi\movieBucketData\obj\Debug\movieBucketData.pdb

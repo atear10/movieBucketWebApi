@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="movieBucketModelStoreContainer" CdmEntityContainer="movieBucketEntities">
+    <EntitySetMapping Name="Actors">
+      <EntityTypeMapping TypeName="movieBucketModel.Actor">
+        <MappingFragment StoreEntitySet="Actors">
+          <ScalarProperty Name="actor_Id" ColumnName="actor_Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+          <ScalarProperty Name="bio" ColumnName="bio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Movies">
+      <EntityTypeMapping TypeName="movieBucketModel.Movie">
+        <MappingFragment StoreEntitySet="Movie">
+          <ScalarProperty Name="movie_id" ColumnName="movie_id" />
+          <ScalarProperty Name="movie_name" ColumnName="movie_name" />
+          <ScalarProperty Name="year_of_release" ColumnName="year_of_release" />
+          <ScalarProperty Name="plot" ColumnName="plot" />
+          <ScalarProperty Name="poster" ColumnName="poster" />
+          <ScalarProperty Name="producer_id" ColumnName="producer_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="producers">
+      <EntityTypeMapping TypeName="movieBucketModel.producer">
+        <MappingFragment StoreEntitySet="producer">
+          <ScalarProperty Name="producer_id" ColumnName="producer_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+          <ScalarProperty Name="bio" ColumnName="bio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="movieactor" TypeName="movieBucketModel.movieactor" StoreEntitySet="movieactor">
+      <EndProperty Name="Actors">
+        <ScalarProperty Name="actor_Id" ColumnName="actor_id" />
+      </EndProperty>
+      <EndProperty Name="Movie">
+        <ScalarProperty Name="movie_id" ColumnName="movie_id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

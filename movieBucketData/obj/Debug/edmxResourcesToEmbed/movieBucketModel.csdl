@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="movieBucketModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Actor">
+    <Key>
+      <PropertyRef Name="actor_Id" />
+    </Key>
+    <Property Name="actor_Id" Type="Guid" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Movies" Relationship="Self.movieactor" FromRole="Actors" ToRole="Movie" />
+  </EntityType>
+  <EntityType Name="Movie">
+    <Key>
+      <PropertyRef Name="movie_id" />
+    </Key>
+    <Property Name="movie_id" Type="Guid" Nullable="false" />
+    <Property Name="movie_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="year_of_release" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+    <Property Name="plot" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="poster" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="producer_id" Type="Guid" Nullable="false" />
+    <NavigationProperty Name="producer" Relationship="Self.FK_Movie_producer" FromRole="Movie" ToRole="producer" />
+    <NavigationProperty Name="Actors" Relationship="Self.movieactor" FromRole="Movie" ToRole="Actors" />
+  </EntityType>
+  <EntityType Name="producer">
+    <Key>
+      <PropertyRef Name="producer_id" />
+    </Key>
+    <Property Name="producer_id" Type="Guid" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="sex" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Movies" Relationship="Self.FK_Movie_producer" FromRole="producer" ToRole="Movie" />
+  </EntityType>
+  <Association Name="FK_Movie_producer">
+    <End Role="producer" Type="Self.producer" Multiplicity="1" />
+    <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="producer">
+        <PropertyRef Name="producer_id" />
+      </Principal>
+      <Dependent Role="Movie">
+        <PropertyRef Name="producer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="movieactor">
+    <End Role="Actors" Type="Self.Actor" Multiplicity="*" />
+    <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="movieBucketEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Actors" EntityType="Self.Actor" />
+    <EntitySet Name="Movies" EntityType="Self.Movie" />
+    <EntitySet Name="producers" EntityType="Self.producer" />
+    <AssociationSet Name="FK_Movie_producer" Association="Self.FK_Movie_producer">
+      <End Role="producer" EntitySet="producers" />
+      <End Role="Movie" EntitySet="Movies" />
+    </AssociationSet>
+    <AssociationSet Name="movieactor" Association="Self.movieactor">
+      <End Role="Actors" EntitySet="Actors" />
+      <End Role="Movie" EntitySet="Movies" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
