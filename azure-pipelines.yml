@@ -13,6 +13,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  version : '1.0.0.0'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -44,7 +45,7 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'myWebsiteName'
+    artifactName: 'movieBucket'
 
 - script: dotnet pack /p:PackageVersion=$(version)  # define version variable elsewhere in your pipeline
 
@@ -52,7 +53,7 @@ steps:
   inputs:
     command: push
     nuGetFeedType: external
-    publishFeedCredentials: '<Name of the NuGet service connection>'
+    publishFeedCredentials: 'nugetConnection'
     versioningScheme: byEnvVar
     versionEnvVar: version
 
