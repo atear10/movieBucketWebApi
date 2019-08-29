@@ -41,13 +41,5 @@ steps:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'movieBucket'
 
-- script: dotnet pack /p:PackageVersion=$(version)  # define version variable elsewhere in your pipeline
 
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
 
