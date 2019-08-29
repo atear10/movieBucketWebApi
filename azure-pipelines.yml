@@ -37,7 +37,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'd:/a/1/a'
+    SourceFolder: 'd:/a/1/a/WebApp.zip'
     Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)/movieBucket'
 
