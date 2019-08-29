@@ -35,11 +35,15 @@ steps:
     configuration: '$(buildConfiguration)'
 
 
-# this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'd:/a/1/a'
+    Contents: '**'
+    TargetFolder: '$(build.artifactstagingdirectory)/movieBucket'
+
+
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'movieBucketAPI'
-
-
-
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
